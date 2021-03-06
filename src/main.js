@@ -24,6 +24,29 @@ import axios from './api/http'
 // 将axios挂载到全局
 Vue.prototype.$http = axios;
 
+router.beforeEach((to, from, next) => {
+  if(to.path==="/login"){
+    return next();
+  }
+  //用户未登录 需要跳转登录页面
+  if (to.matched.some(record => record.meta.auth)) {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      return next();
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+
+});
+
 Vue.config.productionTip = false
 
 new Vue({

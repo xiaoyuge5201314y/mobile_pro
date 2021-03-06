@@ -89,7 +89,7 @@ export default {
     };
   },
   components: {
-    Search,
+      Search,
     HomeNav,
     MySec,
     GoodsCard,

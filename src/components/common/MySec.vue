@@ -13,7 +13,7 @@
 import GoodsCard from "@/components/common/GoodsCard.vue";
 export default {
   name: "MySec",
-  props: ["title"],
+  props: [ "title"],
   components: {
     GoodsCard,
   },
@@ -42,6 +42,7 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+  
   }
 }
 </style>

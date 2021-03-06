@@ -1,5 +1,5 @@
 <template>
-  <div class="Car">
+  <div class="Cart">
     <el-card class="box-card" v-show="showCar" :body-style="{ padding: 0 }">
       <div class="item clear-fix">
         <div class="pic">
@@ -31,7 +31,7 @@
 <script>
 export default {
   name: "",
-  props: ["showCar"],
+  props: ["showCart"],
 };
 </script>
 

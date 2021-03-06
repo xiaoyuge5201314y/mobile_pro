@@ -3,15 +3,15 @@
     <div class="goodsCardWrap">
       <a href="javascript:;" @click="toGoodsDetails(goodsInfo)"> </a>
       <img :src="goodsInfo.productImageBig" alt="" height="200" />
-        <div class="title">{{ goodsInfo.productName }}</div>
-        <div class="subTitle">{{ goodsInfo.subTitle }}</div>
+      <div class="title">{{ goodsInfo.productName }}</div>
+      <div class="subTitle">{{ goodsInfo.subTitle }}</div>
       <div class="shop">
         <div class="price">{{ goodsInfo.salePrice | parsePrice }}</div>
         <div class="btns">
           <el-button size="mini" @click="toGoodsDetails(goodsInfo)"
             >查看详情</el-button
           >
-          <el-button type="primary" size="mini">加入购物车</el-button>
+          <el-button type="primary" size="mini" @click="addCart">加入购物车</el-button>
         </div>
       </div>
     </div>
@@ -23,10 +23,15 @@ export default {
   name: "GoodsCard",
   props: ["goodsInfo"],
   methods: {
+    // 跳转到详情页 并且附带商品id
     toGoodsDetails(item) {
       const id = item.productId;
       this.$router.push(`/goodsDetails?productId=${id}`);
     },
+    // 加入购物车
+    addCart(){
+
+    }
   },
 };
 </script>

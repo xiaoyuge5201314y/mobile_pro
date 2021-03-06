@@ -13,20 +13,33 @@
       <!-- 右侧功能栏 -->
       <div class="userBox right clear-fix">
         <!-- 个人信息 -->
-        <div class="user left">
-          <a href="javascript:;">
+        <div class="user left" @mouseenter="enterUser" @mouseleave="leaveUser">
+          <a
+            href="javascript:;"
+            @click="() => (!login ? $router.push('/login') : '')"
+          >
             <span class="el-icon-user-solid"></span>
           </a>
-          <div class="userInfo"></div>
+          <div class="userInfo" v-show="showUser">
+            <div class="avatar"></div>
+            <ul>
+              <li><a href="javscript:;">我的订单</a></li>
+              <li><a href="javscript:;">账号资料</a></li>
+              <li><a href="javscript:;">收货地址</a></li>
+              <li><a href="javscript:;">售后服务</a></li>
+              <li><a href="javscript:;">我的优惠</a></li>
+              <li><a href="javscript:;" @click="logout">退出</a></li>
+            </ul>
+          </div>
         </div>
         <!-- 购物车 -->
-        <div class="car left" @mouseenter="carEnter" @mouseleave="carLeave">
+        <div class="car left" @mouseenter="cartEnter" @mouseleave="cartLeave">
           <a href="javascript:;">
             <div class="el-icon-shopping-cart-2"></div>
             <el-badge :value="1" class="item"> </el-badge
           ></a>
           <!-- 购物车信息 -->
-          <div class="carInfo" v-show="showCar">
+          <div class="carInfo" v-show="showCart">
             <div class="box-card" :body-style="{ padding: 0 }">
               <div class="item clear-fix">
                 <div class="pic left">
@@ -60,24 +73,42 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "MyNav",
   data() {
     return {
-      // 展示购物车内容
-      showCar: false,
+      showUser: false,
     };
   },
   computed: {
-    ...mapState(["navFixed"]),
+    ...mapState(["navFixed", "showCart", "login"]),
   },
   methods: {
-    carEnter() {
-      this.showCar = true;
+    ...mapMutations(["SHOW_CART", "LOGIN"]),
+    cartEnter() {
+      // this.$store.dispatch("showCart", true);
+      this.SHOW_CART(true);
     },
-    carLeave() {
-      this.showCar = false;
+    cartLeave() {
+      // this.$store.dispatch("showCart", false);
+      this.SHOW_CART(false);
+    },
+    enterUser() {
+      console.log(1);
+      if (localStorage.getItem("userInfo")) {
+        this.showUser = true;
+      }
+    },
+    leaveUser() {
+      if (localStorage.getItem("userInfo")) {
+        this.showUser = false;
+      }
+    },
+    logout() {
+      localStorage.removeItem("userInfo");
+      this.LOGIN(false);
+      this.showUser = false;
     },
   },
   created() {},
@@ -119,6 +150,28 @@ export default {
         height: 100%;
         font-size: 2.4rem;
         line-height: 6rem;
+        .userInfo {
+          position: absolute;
+          right: -9rem;
+          width: 20rem;
+          border-radius: 0.5rem;
+          box-shadow: 2px 2px 20px #bbb;
+          background-color: #fff;
+          z-index: 3;
+          .avatar {
+            height: 10rem;
+          }
+          ul {
+            li {
+              border-top: 1px solid #eee;
+              height: 4rem;
+              font-size: 1.6rem;
+              text-align: center;
+              line-height: 4rem;
+              color: black;
+            }
+          }
+        }
       }
       .car {
         position: relative;
@@ -131,7 +184,8 @@ export default {
         .carInfo {
           position: absolute;
           left: -30rem;
-          z-index: 111;
+          z-index: 9999999;
+          background-color: #fff;
           .box-card {
             width: 36rem;
             box-shadow: 1px 1px 20px #ccc;
@@ -194,7 +248,6 @@ export default {
 
             .result {
               position: relative;
-              background-color: #fff;
               height: 8rem;
               padding: 2rem;
               .count {

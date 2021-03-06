@@ -10,11 +10,18 @@ const routes = [{
 }, {
   path: '/home',
   name: 'Home',
+  meta: {
+    auth: true
+  },
   component: () => import('@/views/Home.vue')
 }, {
   path: '/goodsDetails',
   name: 'GoodsDetails',
   component: () => import('@/views/GoodsDetails.vue')
+},{
+  path: '/login',
+  name: 'Login',
+  component: () => import('@/views/Login.vue')
 }]
 
 const router = new VueRouter({
