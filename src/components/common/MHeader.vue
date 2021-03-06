@@ -1,17 +1,16 @@
 <template>
   <div class="MHeader">
     <header class="header w">
-      <div class="left">我的商城</div>
+      <div class="left" style="font-size:1.6rem">我的商城</div>
       <ul class="right nav">
         <li><a href="javascript:;">用户名</a></li>
-        <li><a href="javascript:;">登录</a></li>
+        <li><a href="javascript:;">登录</a></li>  
         <li><a href="javascript:;">我的购物车</a></li>
-        <li>
-          <div
-            class="title"
-            @mouseenter="() => (orderShow = true)"
-            @mouseleave="() => (orderShow = false)"
-          >
+        <li
+          @mouseenter="() => (orderShow = true)"
+          @mouseleave="() => (orderShow = false)"
+        >
+          <div class="title">
             我的订单<i
               :class="'el-icon-caret-' + (orderShow ? 'top' : 'bottom')"
             ></i>
@@ -40,25 +39,27 @@ export default {
 </script>
 
 <style scoped lang="less">
-@color: #eee;
+@color: #f7f7f7;
 .MHeader {
-  height: 3rem;
+  height: 6rem;
   background-color: @color;
-  line-height: 3rem;
+  line-height: 6rem;
+  border-bottom: 1px solid #eee;
   position: relative;
   .nav {
     > li {
+      position: relative;
       float: left;
       color: #999;
-      font-size: 12px;
+      font-size: 16px;
       &:hover {
         .title {
-          background-color: #fff;
+          background-color: @color;
           border: 1px solid #ccc;
           border-bottom: 1px solid #fff;
         }
         .option {
-          background-color: #fff;
+          background-color: @color;
           border: 1px solid #ccc;
           border-top: 1px solid #fff;
         }
@@ -78,10 +79,14 @@ export default {
         border: 1px solid @color;
       }
       .option {
+        position: absolute;
+        left: 0;
+        top: 6rem;
         display: flex;
+        padding: 0 1rem;
         flex-direction: column;
         border: 1px solid #fff;
-        padding: 0 1rem;
+        z-index: 1;
       }
     }
   }

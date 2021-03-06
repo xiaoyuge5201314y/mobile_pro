@@ -12,6 +12,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
+Vue.filter('parsePrice', (value) => {
+  return `￥ ${value.toFixed(2)}`;
+});
+
+import util from '../util/index'
+Vue.prototype.$util = util;
+
 // 导入axios
 import axios from './api/http'
 // 将axios挂载到全局
