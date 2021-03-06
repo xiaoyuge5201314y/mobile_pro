@@ -1,7 +1,6 @@
 <template>
   <div class="GoodsDetails">
     <my-nav></my-nav>
-    <m-header></m-header>
     <main class="main w">
       <div class="picShow">
         <div class="picChange">
@@ -48,28 +47,10 @@
     </main>
 
     <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
-    <my-sec title="产品信息"></my-sec>
   </div>
 </template>
 
 <script>
-import MHeader from "@/components/common/MHeader.vue";
 import MySec from "@/components/common/MySec.vue";
 import MyNav from "@/components/common/MyNav.vue";
 export default {
@@ -83,7 +64,6 @@ export default {
   },
   methods: {},
   components: {
-    MHeader,
     MySec,
     MyNav,
   },

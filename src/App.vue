@@ -2,9 +2,11 @@
   <div id="app">
     <div id="nav"></div>
     <router-view />
+    <!-- <my-nav></my-nav> -->
   </div>
 </template>
 <script>
+// import MyNav from "@/components/common/MyNav.vue";
 export default {
   created() {
     addEventListener(
@@ -19,6 +21,7 @@ export default {
       false
     );
   },
+  // components: { MyNav },
 };
 </script>
 <style >

@@ -1,6 +1,5 @@
 <template>
   <div ref="a" class="Home">
-    <m-header></m-header>
     <my-nav></my-nav>
     <search></search>
     <home-nav></home-nav>
@@ -57,7 +56,6 @@
 </template>
 
 <script>
-import MHeader from "@/components/common/MHeader.vue";
 import Search from "@/components/common/Search.vue";
 import GoodsCard from "@/components/common/GoodsCard.vue";
 import MySec from "@/components/common/MySec.vue";
@@ -91,7 +89,6 @@ export default {
     };
   },
   components: {
-    MHeader,
     Search,
     HomeNav,
     MySec,
