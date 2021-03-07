@@ -38,7 +38,7 @@
         <div class="car left" @mouseenter="cartEnter" @mouseleave="cartLeave">
           <a href="javascript:;">
             <div class="el-icon-shopping-cart-2"></div>
-            <el-badge :value="1" class="item"> </el-badge
+            <el-badge :value="cartList.length" class="item"> </el-badge
           ></a>
           <!-- 购物车信息 -->
           <div class="carInfo" v-show="showCart">
@@ -49,7 +49,7 @@
                 :key="i"
               >
                 <div class="pic left">
-                  <img :src="item.productImg" alt="" />
+                  <img :src="item.productImageBig" alt="" />
                 </div>
                 <div class="desc left">
                   <div class="goodsName">{{ item.productName }}</div>
@@ -59,7 +59,9 @@
                     </div>
                     <div class="count">x{{ item.productNum }}</div>
                   </div>
-                  <button class="close">x</button>
+                  <button class="close" @click="deleteCart(item.productId)">
+                    x
+                  </button>
                 </div>
               </div>
               <div class="result">
@@ -79,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "MyNav",
   data() {
@@ -92,7 +94,8 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapMutations(["SHOW_CART", "LOGIN"]),
+    ...mapActions(["initCartList", "deleteCartList"]),
+    ...mapMutations(["SHOW_CART", "LOGIN", "CLEAR_CART_LIST"]),
     cartEnter() {
       // this.$store.dispatch("showCart", true);
       this.SHOW_CART(true);
@@ -114,15 +117,39 @@ export default {
     sumPrice() {
       let price = 0;
       this.cartList.forEach((item) => {
-        console.log(item.productPrice)
         price += item.productNum * item.salePrice;
       });
       return price;
     },
+    // exit
     logout() {
-      localStorage.removeItem("userInfo");
-      this.LOGIN(false);
+      // 将用户菜单隐藏
       this.showUser = false;
+      // 清除vuex 和 storage数据
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("buyCart");
+      this.CLEAR_CART_LIST();
+      this.LOGIN(false);
+    },
+    // 删除商品
+    async deleteCart(productId) {
+      console.log(productId);
+      // 已登录
+      if (localStorage.getItem("userInfo")) {
+        const uid = JSON.parse(localStorage.getItem("userInfo")).id;
+        // 请求
+        this.$http.postRequest("./deleteCart", { productId, count: 1, uid });
+        // 刷新缓存数据和vuex
+        const res = await this.$http.getRequest("/getCart?uid=" + uid);
+        if (res.data.code === 200) {
+          const cartList = res.data.data;
+          localStorage.setItem("buyCart", JSON.stringify(cartList));
+          // 初始化vuex购物车
+          this.initCartList();
+        }
+      } else {
+        this.deleteCartList(productId);
+      }
     },
   },
   created() {},

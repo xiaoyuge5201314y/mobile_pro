@@ -16,7 +16,7 @@ Vue.filter('parsePrice', (value) => {
   return `￥${value.toFixed(2)}`;
 });
 
-import util from '../util/index'
+import util from './util/index'
 Vue.prototype.$util = util;
 
 // 导入axios
@@ -46,6 +46,7 @@ router.beforeEach((to, from, next) => {
   }
 
 });
+
 
 Vue.config.productionTip = false
 

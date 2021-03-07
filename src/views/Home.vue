@@ -48,7 +48,12 @@
           >
             <img :src="item.productImageBig" alt="" />
           </a>
-          <goods-card v-if="item.type === 0" :goodsInfo="item"> </goods-card>
+          <goods-card
+            @addCart="addCart"
+            v-if="item.type === 0"
+            :goodsInfo="item"
+          >
+          </goods-card>
         </div>
       </my-sec>
     </section>
@@ -62,8 +67,10 @@ import MySec from "@/components/common/MySec.vue";
 import HomeNav from "@/components/home/HomeNav.vue";
 import banner from "../../db/banner.json";
 import MyNav from "@/components/common/MyNav.vue";
+import cart from "@/mixin/cart.js";
 export default {
   name: "Home",
+  mixins: [cart],
   data() {
     return {
       bannerData: {},
@@ -89,7 +96,7 @@ export default {
     };
   },
   components: {
-      Search,
+    Search,
     HomeNav,
     MySec,
     GoodsCard,
@@ -170,7 +177,7 @@ main {
   }
   .banner {
     position: relative;
-    padding: 1rem  0 1rem 21rem;
+    padding: 1rem 0 1rem 21rem;
     img {
       position: absolute;
       left: 0;

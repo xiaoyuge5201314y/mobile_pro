@@ -30,13 +30,20 @@ export default new Vuex.Store({
     LOGIN(state, bool) {
       state.login = bool;
     },
+    // 网页初始化从本地中获取购物车数据
+    INIT_CART_LIST(state) {
+      const initCart = JSON.parse(localStorage.getItem('buyCart'))
+      if (initCart) {
+        state.cartList = initCart;
+      }
+    },
     // 添加商品到购物车
-    CART_LIST(state, {
+    ADD_CART_LIST(state, {
       productId,
       salePrice,
       productName,
       productImg,
-      productNum = 1
+      productNum = productNum ? productNum : 1
     }) {
       // 商品数据
       let goods = {
@@ -47,7 +54,6 @@ export default new Vuex.Store({
       };
       const isGoods = state.cartList.find(ele => ele.productId === productId);
       // 如果不存在就添加到购物车中
-      console.log(isGoods)
       if (state.cartList.length == 0 || !isGoods) {
         goods.productNum = productNum
         state.cartList.push(goods);
@@ -57,12 +63,27 @@ export default new Vuex.Store({
         state.cartList.forEach((ele, i) => {
           if (ele.productId === productId && ele.productNum >= 0) {
             ele.productNum += productNum;
-
           }
         })
       }
       // 最后将购物车数据存储到storage
       localStorage.setItem('buyCart', JSON.stringify(state.cartList));
+    },
+    // 删除商品
+    DELETE_CART_LIST(state, productId) {
+      state.cartList.forEach((ele, i) => {
+        if (ele.productId === productId) {
+          if (ele.productNum > 0) {
+            ele.productNum--;
+          } else {
+            state.cartList.splice(i, 1);
+          }
+        }
+      })
+    },
+    // 清空购物车
+    CLEAR_CART_LIST(state) {
+      state.cartList = []
     }
   },
   actions: {
@@ -79,14 +100,14 @@ export default new Vuex.Store({
       command.commit('LOGIN', bool)
     },
     // 添加购物车
-    cartList(command, {
+    addCartList(command, {
       productId,
       salePrice,
       productName,
       productImg,
       productNum
     }) {
-      command.commit('CART_LIST', {
+      command.commit('ADD_CART_LIST', {
         productId,
         salePrice,
         productName,
@@ -94,6 +115,14 @@ export default new Vuex.Store({
         productNum
       })
     },
+    // 初始化购物车
+    initCartList(command) {
+      command.commit('INIT_CART_LIST')
+    },
+    // 删除购物车数据
+    deleteCartList(command, productId) {
+      command.commit('DELETE_CART_LIST', productId)
+    }
   },
   modules: {}
 })

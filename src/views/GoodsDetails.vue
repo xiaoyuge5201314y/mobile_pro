@@ -63,9 +63,10 @@
 <script>
 import MySec from "@/components/common/MySec.vue";
 import MyNav from "@/components/common/MyNav.vue";
-import { mapActions, mapState } from "vuex";
+import cart from "@/mixin/cart.js";
 export default {
   name: "GoodsDetails",
+  mixins: [cart],
   data() {
     return {
       // 商品信息
@@ -82,9 +83,8 @@ export default {
     MySec,
     MyNav,
   },
-  computed: { ...mapState(["login"]) },
   methods: {
-    ...mapActions(["cartList"]),
+    // 或群商品详情
     async getGoodsDetails() {
       const productId = this.$route.query.productId;
       const res = await this.$http.getRequest(
@@ -105,31 +105,12 @@ export default {
       this.clickIndex = i;
       this.$refs.bigImg.src = picUrl;
     },
-    // 加入购物车
-    addCart(productId, salePrice, productName, productImg, productNum) {
-      // 已登录 提交给后端
-      if (this.login) {
-        const uid = JSON.parse(localStorage.getItem("userInfo")).id;
-        this.$http.postRequest("/addCart", {
-          productId,
-          uid,
-          price: salePrice,
-          count: productNum,
-        });
-        //未登录 提交到vuex
-      } else {
-        this.cartList({
-          productId,
-          salePrice,
-          productName,
-          productImg,
-          productNum,
-        });
-      }
-    },
+   
+    // 不买啦
     buy() {},
   },
   created() {
+    // 获取商品详情信息
     this.getGoodsDetails();
   },
 };

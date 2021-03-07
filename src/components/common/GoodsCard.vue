@@ -11,7 +11,9 @@
           <el-button size="mini" @click="toGoodsDetails(goodsInfo)"
             >查看详情</el-button
           >
-          <el-button type="primary" size="mini" @click="addCart">加入购物车</el-button>
+          <el-button type="primary" size="mini" @click="addCart"
+            >加入购物车</el-button
+          >
         </div>
       </div>
     </div>
@@ -29,9 +31,16 @@ export default {
       this.$router.push(`/goodsDetails?productId=${id}`);
     },
     // 加入购物车
-    addCart(){
-
-    }
+    addCart() {
+      this.$emit(
+        "addCart",
+        this.goodsInfo.productId,
+        this.goodsInfo.salePrice,
+        this.goodsInfo.productName,
+        this.goodsInfo.productImageBig
+        // productNum
+      );
+    },
   },
 };
 </script>
