@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "Login",
   mounted() {
@@ -45,6 +46,7 @@ export default {
     });
   },
   methods: {
+    ...mapMutations(["LOGIN"]),
     async login() {
       try {
         const res = await this.$http.login({
@@ -53,7 +55,9 @@ export default {
         });
         if (res.data.code === 200) {
           // 登录成功 数据持久化
-          localStorage.setItem("userInfo", res.data.data);
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data));
+          // 修改vuex
+          this.LOGIN(true);
           // 保存token 暂时先不做
           //   localStorage.setItem("token", res.data.token);
           // 跳转页面

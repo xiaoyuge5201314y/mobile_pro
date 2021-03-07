@@ -1,4 +1,6 @@
 const fs = require('fs')
+
+
 module.exports = class {
   constructor() {}
   // 登录
@@ -9,7 +11,7 @@ module.exports = class {
       password
     } = ctx.request.body;
     const result = await new Promise((resolve, reject) => {
-      fs.readFile('../db/user.json', 'utf8', (e, data) => {
+      fs.readFile('./db/user.json', 'utf8', (e, data) => {
         if (e) {
           reject(e)
         } else {
@@ -31,4 +33,5 @@ module.exports = class {
       }
     }
   }
+
 }

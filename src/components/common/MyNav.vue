@@ -4,10 +4,10 @@
       <!-- 左侧导航栏 -->
       <div class="navList left">
         <ul>
-          <li><a href="javascript:;">首页</a></li>
-          <li><a href="javascript:;">全部</a></li>
-          <li><a href="javascript:;">全部</a></li>
-          <li><a href="javascript:;">全部</a></li>
+          <li><router-link class="link" to="/home">首页</router-link></li>
+          <li><router-link class="link" to="">全部</router-link></li>
+          <li><router-link class="link" to="">全部</router-link></li>
+          <li><router-link class="link" to="">全部</router-link></li>
         </ul>
       </div>
       <!-- 右侧功能栏 -->
@@ -23,12 +23,14 @@
           <div class="userInfo" v-show="showUser">
             <div class="avatar"></div>
             <ul>
-              <li><a href="javscript:;">我的订单</a></li>
-              <li><a href="javscript:;">账号资料</a></li>
-              <li><a href="javscript:;">收货地址</a></li>
-              <li><a href="javscript:;">售后服务</a></li>
-              <li><a href="javscript:;">我的优惠</a></li>
-              <li><a href="javscript:;" @click="logout">退出</a></li>
+              <li><router-link class="link" to="">我的订单</router-link></li>
+              <li><router-link class="link" to="">账号资料</router-link></li>
+              <li><router-link class="link" to="">收货地址</router-link></li>
+              <li><router-link class="link" to="">售后服务</router-link></li>
+              <li><router-link class="link" to="">我的优惠</router-link></li>
+              <li>
+                <a class="link" href="javscript:;" @click="logout">退出</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -41,26 +43,30 @@
           <!-- 购物车信息 -->
           <div class="carInfo" v-show="showCart">
             <div class="box-card" :body-style="{ padding: 0 }">
-              <div class="item clear-fix">
+              <div
+                class="item clear-fix"
+                v-for="(item, i) in cartList"
+                :key="i"
+              >
                 <div class="pic left">
-                  <img
-                    src="https://ooo.0o0.ooo/2018/07/13/5b48ac7766d98.png"
-                    alt=""
-                  />
+                  <img :src="item.productImg" alt="" />
                 </div>
                 <div class="desc left">
-                  <div class="goodsName">Smartisan 明信片</div>
+                  <div class="goodsName">{{ item.productName }}</div>
                   <div class="goodsPrice">
-                    <div class="price">{{ 9.9 | parsePrice }}</div>
-                    <div class="count">x9</div>
+                    <div class="price">
+                      {{ Number(item.salePrice) | parsePrice }}
+                    </div>
+                    <div class="count">x{{ item.productNum }}</div>
                   </div>
                   <button class="close">x</button>
                 </div>
               </div>
               <div class="result">
-                <p class="count">共{{ 15 }}件商品</p>
+                <p class="count">共{{ cartList.length }}件商品</p>
                 <p class="sumPrice">
-                  合计: <span>{{ 347 | parsePrice }}</span>
+                  合计:
+                  <span>{{ sumPrice() | parsePrice }}</span>
                 </p>
                 <el-button type="primary" class="btn">去购物车</el-button>
               </div>
@@ -82,8 +88,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["navFixed", "showCart", "login"]),
+    ...mapState(["navFixed", "showCart", "login", "cartList"]),
   },
+  watch: {},
   methods: {
     ...mapMutations(["SHOW_CART", "LOGIN"]),
     cartEnter() {
@@ -95,7 +102,6 @@ export default {
       this.SHOW_CART(false);
     },
     enterUser() {
-      console.log(1);
       if (localStorage.getItem("userInfo")) {
         this.showUser = true;
       }
@@ -104,6 +110,14 @@ export default {
       if (localStorage.getItem("userInfo")) {
         this.showUser = false;
       }
+    },
+    sumPrice() {
+      let price = 0;
+      this.cartList.forEach((item) => {
+        console.log(item.productPrice)
+        price += item.productNum * item.salePrice;
+      });
+      return price;
     },
     logout() {
       localStorage.removeItem("userInfo");
@@ -136,7 +150,7 @@ export default {
           height: 100%;
           float: left;
           line-height: 6rem;
-          a:hover {
+          .link:hover {
             color: blue;
           }
         }
@@ -214,10 +228,10 @@ export default {
                 .goodsName {
                   margin: 1rem 0;
                   color: blue;
-                  font-size: 1.8rem;
+                  font-size: 1.4rem;
                 }
                 .goodsPrice {
-                  font-size: 1.6rem;
+                  font-size: 1.2rem;
                   color: red;
                   .price {
                     display: inline-block;

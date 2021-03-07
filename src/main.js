@@ -13,7 +13,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 Vue.filter('parsePrice', (value) => {
-  return `￥ ${value.toFixed(2)}`;
+  return `￥${value.toFixed(2)}`;
 });
 
 import util from '../util/index'

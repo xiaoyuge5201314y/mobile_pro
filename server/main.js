@@ -23,12 +23,12 @@ const middleWare = koaCompose([
     pretty: false,
     param: 'pretty'
   }),
-  koaStatic(path.resolve(__dirname, '../public')),
+  koaStatic(path.resolve(__dirname, './public')),
   koaHelmet(),
 ]);
 
 app.use(middleWare);
 // router必须放在cors的后面
 app.use(router());
-
 app.listen(80, () => console.log("http://localhost"));
+
